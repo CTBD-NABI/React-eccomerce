@@ -17,6 +17,8 @@ export function AuthProvider({children}){
       }
     })
     setLoggedUser(response.data);
+    localStorage.setItem("userToken",JSON.stringify(userToken));
+    localStorage.setItem("loggedUser",JSON.stringify(response.data));
  } catch (error) {
     console.log(error);
  }
@@ -27,8 +29,6 @@ export function AuthProvider({children}){
   },[userToken]);
 
 
-    console.log(userToken);
-     console.log(loggedUser);
   return (
     <AuthContext.Provider value={{userToken,setUserToken,loggedUser,setLoggedUser}}>
       {children}

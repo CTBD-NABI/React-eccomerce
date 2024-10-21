@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Card from '../components/Card'
 import axios from 'axios';
 import Loading from '../components/Loading';
+import { AuthContext } from '../context/AuthContext';
 
 export default function Shop() {
   const [products, setProducts] =useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);  
+
+
+
 
   async function fetchProducts(){
     setLoading(true);
@@ -16,7 +20,6 @@ setLoading(false);
 
   useEffect(() => {
     fetchProducts();
-
   }, [])
 
   return (

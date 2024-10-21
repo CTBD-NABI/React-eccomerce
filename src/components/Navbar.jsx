@@ -1,9 +1,17 @@
 import React, { useContext } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext';
 
 export default function Navbar() {
   const {userToken,loggedUser}= useContext(AuthContext);
+  const userInfo=JSON.parse(localStorage.getItem("loggedUser"));
+  const navigate=useNavigate();
+
+  function logout(){
+    localStorage.removeItem("userToken");
+    localStorage.removeItem("loggedUser");
+    navigate("/login");
+  }
  
 
   return (
@@ -60,12 +68,13 @@ export default function Navbar() {
       </div>
   </NavLink>
 
-    <div className="dropdown dropdown-end z-50">
+    {
+      userInfo && <div className="dropdown dropdown-end z-50">
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
         <div className="w-10 rounded-full">
           <img
             alt="Tailwind CSS Navbar component"
-            src={loggedUser?loggedUser?.avatar:"https://images.pexels.com/photos/1270076/pexels-photo-1270076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} />
+            src={userInfo?userInfo?.avatar:"https://images.pexels.com/photos/1270076/pexels-photo-1270076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} />
         </div>
       </div>
       <ul
@@ -74,14 +83,15 @@ export default function Navbar() {
         <li>
           <NavLink to={"/profile"} className="justify-between">
            {
-            userToken?loggedUser?.name:"Profile"
+            userInfo?userInfo.name:"Profile"
            }
             <span className="badge">New</span>
           </NavLink>
         </li>
-        <li><NavLink to={"/"}>Logout</NavLink></li>
+        <li onClick={logout}>logout</li>
       </ul>
     </div>
+    }
   </div>
 </div>
     </>
