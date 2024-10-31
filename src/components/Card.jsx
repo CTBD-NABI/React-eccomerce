@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 export default function Card({productInfo}) {
 
   const {id, title, description, price, category, images} = productInfo;
+
   
 
   return (

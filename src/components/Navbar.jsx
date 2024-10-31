@@ -5,6 +5,8 @@ import { AuthContext } from '../context/AuthContext';
 export default function Navbar() {
   const {userToken,loggedUser}= useContext(AuthContext);
   const userInfo=JSON.parse(localStorage.getItem("loggedUser"));
+  const googleUserInfo=JSON.parse(localStorage.getItem("userFromGoogle"));
+  console.log(googleUserInfo);
   const navigate=useNavigate();
 
   function logout(){
@@ -69,12 +71,12 @@ export default function Navbar() {
   </NavLink>
 
     {
-      userInfo && <div className="dropdown dropdown-end z-50">
+      userInfo || googleUserInfo && <div className="dropdown dropdown-end z-50">
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
         <div className="w-10 rounded-full">
           <img
             alt="Tailwind CSS Navbar component"
-            src={userInfo?userInfo?.avatar:"https://images.pexels.com/photos/1270076/pexels-photo-1270076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} />
+            src={googleUserInfo?googleUserInfo?.photoURL:"https://images.pexels.com/photos/1270076/pexels-photo-1270076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} />
         </div>
       </div>
       <ul
@@ -82,9 +84,8 @@ export default function Navbar() {
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
         <li>
           <NavLink to={"/profile"} className="justify-between">
-           {
-            userInfo?userInfo.name:"Profile"
-           }
+           { (userInfo || googleUserInfo) ? (userInfo?.name || googleUserInfo?.displayName || "Profile") : "Profile" }
+
             <span className="badge">New</span>
           </NavLink>
         </li>

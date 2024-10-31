@@ -5,9 +5,35 @@ import { useForm } from "react-hook-form"
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext';
+import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
+import { auth } from '../Firebase/firebase';
+
+const provider = new GoogleAuthProvider();
 
 
 export default function Login() {
+
+  const {setLoggedUser,setGoogleUser}= useContext(AuthContext);
+
+  function loginWithGoogle(){
+    signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const user = result.user;
+    setGoogleUser(user);
+    localStorage.setItem("userFromGoogle",JSON.stringify(user));
+    // console.log(user);
+
+  }).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    const email = error.customData.email;
+    const credential = GoogleAuthProvider.credentialFromError(error);
+
+  });
+
+  }
   const {setUserToken}=useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
@@ -76,7 +102,7 @@ reset
             }
           </button>
         </form>
-         <button className="w-full mt-4 flex gap-3 items-center justify-center  text-slate-900 hover:bg-slate-200 py-2 rounded-md shadow-lg  transition duration-200 mb-6">
+         <button onClick={loginWithGoogle} className="w-full mt-4 flex gap-3 items-center justify-center  text-slate-900 hover:bg-slate-200 py-2 rounded-md shadow-lg  transition duration-200 mb-6">
         <FcGoogle />
           <span>Sign in with Google</span>
         </button>

@@ -7,6 +7,13 @@ import { AuthContext } from '../context/AuthContext';
 export default function Shop() {
   const [products, setProducts] =useState([]);
   const [loading, setLoading] = useState(false);  
+  const [searchQuery, setSearchQuery] = useState("");
+  console.log(products);
+
+
+  // Filter based On Search Query
+
+
 
 
 
@@ -22,6 +29,13 @@ setLoading(false);
     fetchProducts();
   }, [])
 
+  
+ const filteredProducts = products.filter((product) => {
+
+  return product.title.toLowerCase().includes(searchQuery.toLowerCase());
+});
+
+
   return (
     <>
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -31,9 +45,11 @@ setLoading(false);
         {/* Search Field */}
         <div className="mb-6 flex justify-center">
           <input
+          value={searchQuery}
             type="text"
             placeholder="Search for products..."
             className="w-full max-w-md px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+            onChange={(e)=>setSearchQuery(e.target.value)}
           />
         </div>
 
@@ -57,16 +73,11 @@ setLoading(false);
         {
           loading ? <Loading/>: <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {
-              products.map((product)=><Card key={product.id} productInfo={product} />)
+
+              filteredProducts.map((product)=><Card key={product.id} productInfo={product}></Card>)
             }
         </div>
         }
-
-
-
-
-      
-       
       </div>
     </div>
     </>

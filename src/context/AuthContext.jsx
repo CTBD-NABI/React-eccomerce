@@ -7,7 +7,13 @@ export const AuthContext= createContext();
 export function AuthProvider({children}){
     const [userToken, setUserToken] = useState(null);
     const [loggedUser,setLoggedUser]=useState(null);
-    console.log(userToken);
+    const [googleUser,setGoogleUser]=useState(null);
+  
+    
+
+
+    
+    
 
     async function getUserInfo(){
  try {
@@ -24,13 +30,15 @@ export function AuthProvider({children}){
  }
   }
 
+
   useEffect(()=>{
     getUserInfo();
+ 
   },[userToken]);
 
 
   return (
-    <AuthContext.Provider value={{userToken,setUserToken,loggedUser,setLoggedUser}}>
+    <AuthContext.Provider value={{userToken,setUserToken,loggedUser,setLoggedUser, googleUser,setGoogleUser}}>
       {children}
     </AuthContext.Provider>
   )
