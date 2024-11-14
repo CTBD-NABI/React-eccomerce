@@ -8,13 +8,9 @@ export function AuthProvider({children}){
     const [userToken, setUserToken] = useState(null);
     const [loggedUser,setLoggedUser]=useState(null);
     const [googleUser,setGoogleUser]=useState(null);
+    console.log(googleUser)
   
     
-
-
-    
-    
-
     async function getUserInfo(){
  try {
        const response= await axios.get("https://api.escuelajs.co/api/v1/auth/profile",{

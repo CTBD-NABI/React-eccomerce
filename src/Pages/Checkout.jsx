@@ -1,26 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { CartContext } from '../context/CartContextt';
 
 export default function Checkout() {
-  const items = [
-    {
-      title: "Wireless Headphones",
-      image: "https://via.placeholder.com/100", // Replace with an actual image URL
-      price: "$99",
-      category: "Electronics",
-    },
-    {
-      title: "Running Shoes",
-      image: "https://via.placeholder.com/100", // Replace with an actual image URL
-      price: "$79",
-      category: "Footwear",
-    },
-    {
-      title: "Smart Watch",
-      image: "https://via.placeholder.com/100", // Replace with an actual image URL
-      price: "$199",
-      category: "Wearables",
-    },
-  ];
+  const {cart}= useContext(CartContext);
+
   return (
     <>
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -36,18 +19,18 @@ export default function Checkout() {
             </tr>
           </thead>
           <tbody>
-            {items.map((item, index) => (
+            {cart?.map((item, index) => (
               <tr key={index} className="text-center">
-                <td className="p-4 border-b border-gray-200">{item.title}</td>
+                <td className="p-4 border-b border-gray-200">{item?.title}</td>
                 <td className="p-4 border-b border-gray-200">
                   <img
-                    src={item.image}
-                    alt={item.title}
+                    src={item?.images[0]}
+                    alt={item?.title}
                     className="w-16 h-16 mx-auto"
                   />
                 </td>
-                <td className="p-4 border-b border-gray-200">{item.price}</td>
-                <td className="p-4 border-b border-gray-200">{item.category}</td>
+                <td className="p-4 border-b border-gray-200">{item?.price}</td>
+                <td className="p-4 border-b border-gray-200">{item?.category?.name}</td>
               </tr>
             ))}
           </tbody>

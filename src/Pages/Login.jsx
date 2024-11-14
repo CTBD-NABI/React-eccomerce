@@ -14,6 +14,7 @@ const provider = new GoogleAuthProvider();
 export default function Login() {
 
   const {setLoggedUser,setGoogleUser}= useContext(AuthContext);
+  const naviGate= useNavigate();
 
   function loginWithGoogle(){
     signInWithPopup(auth, provider)
@@ -23,6 +24,8 @@ export default function Login() {
     const user = result.user;
     setGoogleUser(user);
     localStorage.setItem("userFromGoogle",JSON.stringify(user));
+    naviGate("/shop")
+    toast.success("Login Successfull");
     // console.log(user);
 
   }).catch((error) => {
